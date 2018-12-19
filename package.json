@@ -1,0 +1,17 @@
+{
+  "name": "web-vr-forest",
+  "version": "1.0.0",
+  "description": "3D Forest using Web VR",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "keywords": [
+    "Web",
+    "VR",
+    "A",
+    "Frame"
+  ],
+  "author": "JohnWebb4",
+  "license": "MIT"
+}
