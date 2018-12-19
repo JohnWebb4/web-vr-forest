@@ -4,6 +4,13 @@
   "description": "3D Forest using Web VR",
   "main": "index.js",
   "scripts": {
+    "build": "webpack --mode=production",
+    "build:dev": "webpack --mode=development",
+    "lint:js": "eslint .",
+    "lint:ts": "tslint --project tsconfig.json",
+    "lint": "npm run lint:js && npm run lint:ts",
+    "start": "node index.js",
+    "start:dev": "nodemon index.js",
     "test": "jest"
   },
   "keywords": [
@@ -13,5 +20,25 @@
     "Frame"
   ],
   "author": "JohnWebb4",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^16.7.17",
+    "@types/react-dom": "^16.0.11",
+    "eslint": "^5.10.0",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.2",
+    "eslint-plugin-react": "^7.11.1",
+    "nodemon": "^1.18.9",
+    "ts-loader": "^5.3.1",
+    "tslint": "^5.12.0",
+    "typescript": "^3.2.2",
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "express": "^4.16.4",
+    "react": "^16.6.3",
+    "react-dom": "^16.6.3"
+  }
 }
