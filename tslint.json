@@ -4,6 +4,15 @@
         "tslint:recommended"
     ],
     "jsRules": {},
+    "linterOptions": {
+        "exclude": [
+            "coverage/**",
+            "dist",
+            "index.js",
+            "jest.config.js",
+            "webpack.config.js"
+        ]
+    },
     "rules": {},
     "rulesDirectory": []
 }
