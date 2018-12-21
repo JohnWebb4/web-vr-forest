@@ -1,12 +1,12 @@
-import React, { Fragment } from "react";
+import { cloneDeep } from "lodash";
+import React, { Fragment, useEffect, useState } from "react";
 
-import { IEnvironment } from "../typings/ienvironment";
 import { ITheme } from "../typings/itheme";
+import { getRandomHexBetweenValues } from "../utils/colors.util";
 
-import { Tree } from "../components/tree";
+import { IProps as TreeProps, Tree } from "../components/tree";
 
-class Forest implements IEnvironment {
-  public loadAssets(): JSX.Element {
+function loadAssets(): JSX.Element {
     return (
       <Fragment>
         <img id="tree1-bark" src="images/tree1-bark.png"></img>
@@ -15,14 +15,33 @@ class Forest implements IEnvironment {
     );
   }
 
-  public render(theme: ITheme): JSX.Element {
-    return (
-      <Fragment>
-        <a-sky color={theme.backgroundColor}></a-sky>
-        <Tree position="0 0 -2" barkColor={theme.tertiaryColor} leafColor={theme.primaryColor}/>
-      </Fragment>
-    );
-  }
+function render(theme: ITheme): JSX.Element {
+  const [trees, updateTrees] = useState<TreeProps[]>([
+    {
+      position: "0 0 -2",
+    },
+  ]);
+
+  useEffect(() => {
+    const newTrees: TreeProps[] = cloneDeep(trees).map((tree) => ({
+      ...tree,
+      barkColor: theme.tertiaryColor,
+      leafColor: getRandomHexBetweenValues(theme.primaryColor, theme.secondaryColor),
+    }));
+
+    updateTrees(newTrees);
+  });
+
+  return (
+    <Fragment>
+      <a-sky color={theme.backgroundColor}></a-sky>
+      {
+        trees.map((treeProps: TreeProps, index: number) => (
+          <Tree key={index} {...treeProps} />
+        ))
+      }
+    </Fragment>
+  );
 }
 
-export { Forest };
+export { loadAssets, render };

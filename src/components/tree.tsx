@@ -17,4 +17,4 @@ function Tree({barkColor, leafColor, position, rotation, scale}: IProps) {
   );
 }
 
-export { Tree };
+export { IProps, Tree };

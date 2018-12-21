@@ -1,7 +1,16 @@
 import { IHSL } from "../typings/ihsl";
 import { IRGB } from "../typings/irgb";
 import { hexToNumber, numberToHex } from "./convert.util";
-import { getRemainder } from "./math.util";
+import { getRandomInRange, getRemainder } from "./math.util";
+
+function getRandomHexBetweenValues(hex1: string, hex2: string): string {
+  const hsl1 = hexToHsl(hex1);
+  const hsl2 = hexToHsl(hex2);
+
+  const { hue, saturation, luminance } = getRandomHSL(hsl1, hsl2);
+
+  return hslToHex(hue, saturation, luminance);
+}
 
 function hexToHsl(hex: string): IHSL {
   const { red, green, blue} = hexToRgb(hex);
@@ -129,4 +138,12 @@ function getPercentChannel(tempColor: number, temp1: number, temp2: number): num
   return temp2;
 }
 
-export { hexToHsl, hslToHex };
+function getRandomHSL(hsl1: IHSL, hsl2: IHSL): IHSL {
+  return {
+    hue: getRandomInRange(hsl1.hue, hsl2.hue),
+    luminance: getRandomInRange(hsl1.luminance, hsl2.luminance),
+    saturation: getRandomInRange(hsl1.saturation, hsl2.saturation),
+  };
+}
+
+export { getRandomHexBetweenValues, hexToHsl, hslToHex };

@@ -1,6 +1,21 @@
-import { hexToHsl, hslToHex } from "./colors.util";
+import { getRandomHexBetweenValues, hexToHsl, hslToHex } from "./colors.util";
+
+Math.random = jest.fn();
 
 describe("Colors Util", () => {
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  describe("getRandomHexBetweenValues", () => {
+    describe("when I pass two hex values", () => {
+      it("should get a value in between", () => {
+        (Math.random as any).mockReturnValue(0.5);
+
+        expect(getRandomHexBetweenValues("#AA9980", "#224F6B")).toEqual("#4A924A");
+      });
+    });
+  });
   describe("hexToHsl", () => {
     describe("when I convert a color with high max and min colors", () => {
       it("should return the correct saturation", () => {
