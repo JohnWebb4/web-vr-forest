@@ -1,28 +1,25 @@
 import React from "react";
 
-import { colors } from "./styles/index";
+import { themes } from "./styles/themes";
+import { IEnvironment } from "./typings/ienvironment";
 
-import { Tree } from "./components/tree";
+import { Forest } from "./environments/forest";
 
 function App() {
+  const environment: IEnvironment = new Forest();
+  const theme = new themes.MainTheme();
+
   return (
     <a-scene>
       <a-assets>
-        {loadAssets()}
+        {environment.loadAssets()}
       </a-assets>
-      <a-sky color={colors.sky}></a-sky>
       <a-entity position="0 0 0" rotation="0 0 0">
         <a-camera near="0.1" user-height="0">
         </a-camera>
       </a-entity>
-      <Tree color="#FF00FF" position="0 0 -2"  rotation="0 0 0"/>
+      {environment.render(theme)}
     </a-scene>
-  );
-}
-
-function loadAssets(): JSX.Element {
-  return (
-    <img id="tree1" src="images/tree1.png"></img>
   );
 }
 

@@ -1,5 +1,5 @@
-import { colors } from "./colors";
+import { themes } from "./themes";
 
 export {
-  colors,
+  themes,
 };
