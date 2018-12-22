@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from "react";
+import React, { useState } from "react";
 
 import { themes } from "./styles/themes";
 import { ITheme } from "./typings/itheme";
@@ -8,9 +8,9 @@ import { Overlay } from "./ui/overlay";
 
 function App() {
   const [theme, updateTheme] = useState<ITheme>(themes.mainTheme);
-  const [numTrees, updateNumTrees] = useState(150);
-  const [minDistance, updateMinDistance ] = useState(1.5);
-  const [maxDistance, updateMaxDistance ] = useState(6);
+  const [numTrees] = useState(100);
+  const [minDistance] = useState(1.5);
+  const [maxDistance] = useState(6);
 
   return (
     <a-scene>

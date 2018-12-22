@@ -83,9 +83,12 @@ function getRandomCirleOrientation(minDistance: number, maxDistance: number) {
 
   const rotation = (angle) / Math.PI * 180;
 
+  const scale = getRandomInRange(0.5, 2);
+
   return {
     position: `${posX} 0 ${posZ}`,
     rotation: `0 ${rotation} 0`,
+    scale: `${scale} ${scale} ${scale}`,
   };
 }
 
