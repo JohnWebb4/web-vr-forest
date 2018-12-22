@@ -48,6 +48,14 @@ function Forest({maxDistance, minDistance, numTrees, theme}: IForestProps): JSX.
           <Tree key={index} {...treeProps} />
         ))
       }
+      <a-plane
+        color={theme.groundColor}
+        height="20"
+        position="0 -0.25 0"
+        rotation="-90 0 0"
+        roughness="1"
+        width="20"
+      />
     </Fragment>
   );
 }
