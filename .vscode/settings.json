@@ -1,0 +1,9 @@
+{
+  "files.watcherExclude": {
+    "**/coverage/**": true,
+    "**/dist/**": true,
+    "**/dist/index.html": false,
+    "**/.git/**": true,
+    "**/node_modules/**": true
+  }
+}

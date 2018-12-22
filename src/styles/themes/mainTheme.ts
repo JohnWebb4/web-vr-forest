@@ -4,11 +4,14 @@ import { colors } from "../colors";
 
 class MainTheme implements ITheme {
   public backgroundColor = colors.greyLight;
-  public primaryColor = colors.green;
-  public secondaryColor = colors.greenDark;
+  public primaryColor = colors.greenDark;
+  public secondaryColor = colors.green;
   public tertiaryColor = colors.greyDark;
 }
 
+const mainTheme = new MainTheme();
+
 export {
+  mainTheme,
   MainTheme,
 };

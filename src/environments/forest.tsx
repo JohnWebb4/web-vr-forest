@@ -1,4 +1,4 @@
-import { cloneDeep, isEqual } from "lodash";
+import { cloneDeep } from "lodash";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 
 import { ITheme } from "../typings/itheme";
@@ -26,30 +26,19 @@ function LoadForest(): JSX.Element {
 function Forest({maxDistance, minDistance, numTrees, theme}: IForestProps): JSX.Element {
   const [trees, updateTrees] = useState<TreeProps[]>(generateTrees(theme, numTrees, minDistance, maxDistance));
 
-  const previousTheme = usePreviousValue(theme);
-  const previousEnvironmentProps = usePreviousValue({
-    maxDistance,
-    minDistance,
-    numTrees,
-  });
+  useEffect(() => {
+    const newTrees: TreeProps[] = cloneDeep(trees).map((tree) => ({
+      ...tree,
+      barkColor: theme.tertiaryColor,
+      leafColor: getRandomHexBetweenValues(theme.primaryColor, theme.secondaryColor),
+    }));
+
+    updateTrees(newTrees);
+  }, [theme]);
 
   useEffect(() => {
-    if (!isEqual(theme, previousTheme)) {
-      const newTrees: TreeProps[] = cloneDeep(trees).map((tree) => ({
-        ...tree,
-        barkColor: theme.tertiaryColor,
-        leafColor: getRandomHexBetweenValues(theme.primaryColor, theme.secondaryColor),
-      }));
-
-      updateTrees(newTrees);
-    }
-  });
-
-  useEffect(() => {
-    if (!isEqual({ maxDistance, minDistance, numTrees}, previousEnvironmentProps)) {
-      updateTrees(generateTrees(theme, numTrees, minDistance, maxDistance));
-    }
-  });
+    updateTrees(generateTrees(theme, numTrees, minDistance, maxDistance));
+  }, [maxDistance, minDistance, numTrees]);
 
   return (
     <Fragment>
@@ -75,18 +64,6 @@ function generateTrees(theme: ITheme, numTrees: number, minDistance: number, max
   }
 
   return trees;
-}
-
-function usePreviousValue<T>(value: T): T  {
-  const ref = useRef(null);
-
-  (ref.current as any) = value;
-
-  useEffect(() => {
-    (ref.current as any) = value;
-  });
-
-  return (ref.current as any);
 }
 
 function getRandomCirleOrientation(minDistance: number, maxDistance: number) {
