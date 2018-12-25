@@ -11,8 +11,8 @@ interface IProps {
 function Tree({barkColor, leafColor, position, rotation, scale}: IProps) {
   return (
     <a-entity position={position} rotation={rotation} scale={scale}>
-      <a-box src="#tree1-leaves" color={leafColor} position="0 0.5 0" scale="0.5 0.5 0.5"></a-box>
-      <a-box src="#tree1-bark" color={barkColor} position="0 0 0" scale="0.25 0.5 0.25"></a-box>
+      <a-image src="#tree1-leaves" color={leafColor} position="0 0.5 0" scale="0.5 0.5 1"></a-image>
+      <a-image src="#tree1-bark" color={barkColor} position="0 0 0" scale="0.25 0.5 1"></a-image>
     </a-entity>
   );
 }

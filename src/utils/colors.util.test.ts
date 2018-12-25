@@ -1,21 +1,37 @@
-import { getRandomHexBetweenValues, hexToHsl, hslToHex } from "./colors.util";
-
-Math.random = jest.fn();
+import { circularInterpolationHex, getRandomHexBetweenValues, hexToHsl, hslToHex, interpolateHex } from "./colors.util";
 
 describe("Colors Util", () => {
   afterEach(() => {
     jest.resetAllMocks();
   });
 
+  describe("circularInterpolationHex", () => {
+    describe("when I pass an angle less than PI", () => {
+      it("should calculate from hsl1 to hsl2", () => {
+        expect(circularInterpolationHex("#FF00FF", "#00FF00", 0.5 * Math.PI)).toEqual("#007FFF");
+      });
+    });
+
+    describe("when I pass an angle less than PI", () => {
+      it("should calculate form hsl2 to hsl1", () => {
+        expect(circularInterpolationHex("#FF00FF", "#00FF00", 1.5 * Math.PI)).toEqual("#007FFF");
+      });
+    });
+
+  });
+
   describe("getRandomHexBetweenValues", () => {
     describe("when I pass two hex values", () => {
       it("should get a value in between", () => {
+        Math.random = jest.fn();
+
         (Math.random as any).mockReturnValue(0.5);
 
         expect(getRandomHexBetweenValues("#AA9980", "#224F6B")).toEqual("#4A924A");
       });
     });
   });
+
   describe("hexToHsl", () => {
     describe("when I convert a color with high max and min colors", () => {
       it("should return the correct saturation", () => {
@@ -108,6 +124,11 @@ describe("Colors Util", () => {
         expect(hslToHex(185, 0.1, 0.6)).toEqual("#8FA2A3");
       });
     });
+  });
 
+  describe("interpolateHex", () => {
+    it("should work", () => {
+      expect(interpolateHex("#000000", "#00FF00", 0.5)).toEqual("#606020");
+    });
   });
 });

@@ -1,7 +1,7 @@
 import { IHSL } from "../typings/ihsl";
 import { IRGB } from "../typings/irgb";
 import { hexToNumber, numberToHex } from "./convert.util";
-import { getRandomInRange, getRemainder } from "./math.util";
+import { getRandomInRange, getRemainder, interpolate } from "./math.util";
 
 function getRandomHexBetweenValues(hex1: string, hex2: string): string {
   const hsl1 = hexToHsl(hex1);
@@ -22,6 +22,21 @@ function hslToHex(hue: number, saturation: number, luminance: number): string {
   const { red, green, blue } = hslToRgb(hue, saturation, luminance);
 
   return rgbToHex(Math.round(red), Math.round(green), Math.round(blue));
+}
+
+function circularInterpolationHex(hex1: string, hex2: string, angle: number): string {
+  const factor = 1 - (Math.sin(angle - Math.PI / 2) + 1) / 2;
+
+  return interpolateHex(hex1, hex2, factor);
+}
+
+function interpolateHex(hex1: string, hex2: string, factor: number): string {
+  const hsl1 = hexToHsl(hex1);
+  const hsl2 = hexToHsl(hex2);
+
+  const { hue, saturation, luminance } = interpolateHSL(hsl1, hsl2, factor);
+
+  return hslToHex(hue, saturation, luminance);
 }
 
 function hexToRgb(hex: string): IRGB {
@@ -146,4 +161,12 @@ function getRandomHSL(hsl1: IHSL, hsl2: IHSL): IHSL {
   };
 }
 
-export { getRandomHexBetweenValues, hexToHsl, hslToHex };
+function interpolateHSL(hsl1: IHSL, hsl2: IHSL, factor: number): IHSL {
+  return {
+    hue: interpolate(hsl1.hue, hsl2.hue, factor),
+    luminance: interpolate(hsl1.luminance, hsl2.luminance, factor),
+    saturation: interpolate(hsl1.saturation, hsl2.saturation, factor),
+  };
+}
+
+export { circularInterpolationHex, getRandomHexBetweenValues, hexToHsl, hslToHex, interpolateHex };

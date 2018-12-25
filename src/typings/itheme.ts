@@ -1,5 +1,6 @@
 interface ITheme {
-  backgroundColor: string;
+  backgroundDayColor: string;
+  backgroundNightColor: string;
   groundColor: string;
   primaryColor: string;
   secondaryColor: string;

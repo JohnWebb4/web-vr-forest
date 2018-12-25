@@ -1,4 +1,4 @@
-import { getRandomInRange, getRemainder } from "./math.util";
+import { getRandomInRange, getRemainder, interpolate } from "./math.util";
 
 Math.random = jest.fn();
 
@@ -45,6 +45,14 @@ describe("Math Util", () => {
     describe("when I ommit the max value", () => {
       it("should assume 1", () => {
         expect(getRemainder(0.5)).toEqual(0.5);
+      });
+    });
+  });
+
+  describe("interpolate", () => {
+    describe("when I interpolate a value", () => {
+      it("should return the interpolated result", () => {
+        expect(interpolate(-1, 15, 0.25)).toEqual(3);
       });
     });
   });

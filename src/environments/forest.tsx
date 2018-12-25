@@ -1,13 +1,15 @@
 import { cloneDeep } from "lodash";
-import React, { Fragment, useEffect, useRef, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 
 import { ITheme } from "../typings/itheme";
-import { getRandomHexBetweenValues } from "../utils/colors.util";
+import { circularInterpolationHex, getRandomHexBetweenValues } from "../utils/colors.util";
 import { getRandomInRange } from "../utils/math.util";
 
 import { IProps as TreeProps, Tree } from "../components/tree";
+import { getSunAngle } from "../utils/time.util";
 
 interface IForestProps {
+  date: Date;
   maxDistance: number;
   minDistance: number;
   numTrees: number;
@@ -23,7 +25,7 @@ function LoadForest(): JSX.Element {
     );
   }
 
-function Forest({maxDistance, minDistance, numTrees, theme}: IForestProps): JSX.Element {
+function Forest({ date, maxDistance, minDistance, numTrees, theme}: IForestProps): JSX.Element {
   const [trees, updateTrees] = useState<TreeProps[]>(generateTrees(theme, numTrees, minDistance, maxDistance));
 
   useEffect(() => {
@@ -40,9 +42,12 @@ function Forest({maxDistance, minDistance, numTrees, theme}: IForestProps): JSX.
     updateTrees(generateTrees(theme, numTrees, minDistance, maxDistance));
   }, [maxDistance, minDistance, numTrees]);
 
+  const sunAngle = getSunAngle(date);
+  const backgroundColor = circularInterpolationHex(theme.backgroundDayColor, theme.backgroundNightColor, sunAngle);
+
   return (
     <Fragment>
-      <a-sky color={theme.backgroundColor}></a-sky>
+      <a-sky color={backgroundColor}></a-sky>
       {
         trees.map((treeProps: TreeProps, index: number) => (
           <Tree key={index} {...treeProps} />

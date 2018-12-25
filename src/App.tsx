@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import moment from "moment";
+import React, { useEffect, useState} from "react";
 
 import { themes } from "./styles/themes";
 import { ITheme } from "./typings/itheme";
@@ -11,6 +12,19 @@ function App() {
   const [numTrees] = useState(100);
   const [minDistance] = useState(1.5);
   const [maxDistance] = useState(6);
+  const [date, updateDate] = useState(new Date(Date.now()));
+  const [speed, updateSpeed] = useState(1);
+
+  useEffect(() => {
+    const dateInterval = setInterval(() => {
+      const newDate = moment(date).add(150 * speed, "milliseconds");
+      updateDate(newDate.toDate());
+    }, 150);
+
+    return () => {
+      clearInterval(dateInterval);
+    };
+  });
 
   return (
     <a-scene>
@@ -20,9 +34,9 @@ function App() {
       <a-entity position="0 0 0" rotation="0 0 0">
         <a-camera near="0.1" user-height="0">
         </a-camera>
-        <Overlay theme={theme} updateTheme={updateTheme} />
+        <Overlay date={date} theme={theme} updateTheme={updateTheme} />
       </a-entity>
-      <Forest theme={theme} numTrees={numTrees} minDistance={minDistance} maxDistance={maxDistance} />
+      <Forest date={date} maxDistance={maxDistance} minDistance={minDistance} numTrees={numTrees} theme={theme} />
     </a-scene>
   );
 }

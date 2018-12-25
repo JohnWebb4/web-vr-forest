@@ -1,9 +1,14 @@
-function getRandomInRange(min: number, max: number) {
+function interpolate(min: number, max: number, factor: number): number {
   const diff = max - min;
 
-  return Math.random() * diff + min;
+  const result = factor * diff + min;
+
+  return result;
 }
 
+function getRandomInRange(min: number, max: number) {
+  return interpolate(min, max, Math.random());
+}
 function getRemainder(value: number, max: number = 1) {
   let positiveValue = value;
 
@@ -20,4 +25,4 @@ function getRemainder(value: number, max: number = 1) {
   return positiveValue;
 }
 
-export { getRandomInRange, getRemainder };
+export { getRandomInRange, getRemainder, interpolate };

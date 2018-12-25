@@ -4,19 +4,23 @@ import styled, { css } from "styled-components";
 
 import { themes } from "../styles/themes";
 import { ITheme } from "../typings/itheme";
+import { circularInterpolationHex } from "../utils/colors.util";
+import { getSunAngle } from "../utils/time.util";
 
 interface IOverlayProps {
+  date: Date;
   theme: ITheme;
   updateTheme: (theme: ITheme) => void;
 }
 
-function Overlay({ theme, updateTheme }: IOverlayProps): JSX.Element {
+function Overlay({ date, theme, updateTheme }: IOverlayProps): JSX.Element {
   return (
-    <Bar theme={theme}>
+    <Bar date={date} theme={theme}>
       <Header theme={theme}>Select A Theme:</Header>
       { Object.keys(themes).map((aTheme) => (
         <Button
           key={aTheme}
+          date={date}
           onClick={getUpdateThemeTo(themes[aTheme], updateTheme)}
           theme={theme}>
           {startCase(aTheme)}
@@ -36,7 +40,7 @@ interface IHeaderProps {
   theme: ITheme;
 }
 
-const Header = styled.h2`
+const Header = styled.h2<IHeaderProps>`
   margin: auto 0;
 
   ${({ theme }: IHeaderProps) => theme && css`
@@ -45,10 +49,11 @@ const Header = styled.h2`
 `;
 
 interface IBarProps {
+  date: Date;
   theme: ITheme;
 }
 
-const Bar = styled.div`
+const Bar = styled.div<IBarProps>`
   display: flex;
   flex-direction: row;
   height: 2%;
@@ -57,9 +62,13 @@ const Bar = styled.div`
   position: absolute;
   width: 100%;
 
-  ${({ theme }: IBarProps) => theme && css`
-    background-color: ${theme.backgroundColor}
-  `}
+  ${({ date, theme }: IBarProps) => {
+    const sunAngle = getSunAngle(date);
+    const backgroundColor = circularInterpolationHex(theme.backgroundDayColor, theme.backgroundNightColor, sunAngle);
+
+    return date && theme && css`
+    background-color: ${backgroundColor}`;
+  }}
 
   > * {
     &:not(:first-child) {
@@ -69,12 +78,13 @@ const Bar = styled.div`
 `;
 
 interface IButtonProps {
+  date: Date;
   theme: ITheme;
 }
 
-const Button = styled.button`
-  ${({ theme}: IButtonProps) => theme && css`
-    color: ${theme.backgroundColor}
+const Button = styled.button<IButtonProps>`
+  ${({ date, theme }: IButtonProps) => date && theme && css`
+    color: ${theme.primaryColor}
     background-color: ${theme.secondaryColor}
     border-style: none
   `}

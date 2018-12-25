@@ -24,6 +24,7 @@
   "devDependencies": {
     "@types/jest": "^23.3.10",
     "@types/lodash": "^4.14.119",
+    "@types/moment": "^2.13.0",
     "@types/node": "^10.12.18",
     "@types/react": "^16.7.18",
     "@types/react-dom": "^16.0.11",
@@ -46,6 +47,7 @@
     "@types/styled-components": "^4.1.4",
     "express": "^4.16.4",
     "lodash": "^4.17.11",
+    "moment": "^2.23.0",
     "react": "^16.7.0-alpha.2",
     "react-dom": "^16.7.0-alpha.2",
     "styled-components": "^4.1.3"
